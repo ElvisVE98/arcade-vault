@@ -16,3 +16,10 @@ npx skills@latest add Klerith/fernando-skills
 ```
 
 ## hola mundo
+
+## Variables de entorno
+
+Copia `.env.example` a `.env.local` y completa:
+
+- `RESEND_API_KEY`: API key de Resend (formulario de contacto de `/acerca`).
+- `CONTACT_TO_EMAIL`: correo que recibe los mensajes. Con el remitente `onboarding@resend.dev` debe ser el correo dueño de la cuenta Resend.

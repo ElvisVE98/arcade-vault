@@ -1,6 +1,6 @@
 # SPEC 01 — MVP visual: todas las pantallas del template en Next.js
 
-> **Estado:** aprobado
+> **Estado:** implementado
 > **Depende de:** ninguna (el scaffold y los estilos de `app/globals.css` ya existen en `main`)
 > **Fecha:** 2026-11-03
 > **Objetivo:** Portar a Next.js (App Router, TypeScript) las 5 pantallas de `references/templates/` (biblioteca, detalle, reproductor, auth y salón de la fama) con datos mock y sin implementar ningún juego.

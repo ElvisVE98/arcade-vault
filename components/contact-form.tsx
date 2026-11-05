@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+
+import { sendContactMessage } from "@/app/acerca/actions";
 
 const EMPTY = { name: "", email: "", msg: "" };
 
@@ -8,6 +10,8 @@ export function ContactForm() {
   const [form, setForm] = useState(EMPTY);
   const [sent, setSent] = useState<string | null>(null);
   const [shake, setShake] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,7 +20,12 @@ export function ContactForm() {
       setTimeout(() => setShake(false), 400);
       return;
     }
-    setSent(form.name.trim());
+    setError(null);
+    startTransition(async () => {
+      const res = await sendContactMessage(form);
+      if (res.ok) setSent(form.name.trim());
+      else setError(res.error);
+    });
   };
 
   return (
@@ -55,12 +64,18 @@ export function ContactForm() {
               placeholder="Cuéntanos qué tienes en mente…"
             ></textarea>
           </div>
+          {error && (
+            <div className="contact-error" role="alert">
+              {error}
+            </div>
+          )}
           <button
             className="btn xl press"
             type="submit"
+            disabled={pending}
             style={{ width: "100%" }}
           >
-            ▶ ENVIAR MENSAJE
+            {pending ? "ENVIANDO…" : "▶ ENVIAR MENSAJE"}
           </button>
         </>
       ) : (
@@ -89,6 +104,7 @@ export function ContactForm() {
                 type="button"
                 onClick={() => {
                   setSent(null);
+                  setError(null);
                   setForm(EMPTY);
                 }}
               >
